@@ -199,3 +199,17 @@ Java_com_janeasystems_rn_1nodejs_1mobile_RNNodeJsMobileModule_startNodeWithArgum
     return jint(callintoNode(argument_count,argv));
 
 }
+
+// setenv wrapper for API < 21
+extern "C" jint JNICALL
+Java_com_janeasystems_rn_1nodejs_1mobile_RNNodeJsMobileModule_setenv(
+        JNIEnv *env,
+        jobject /* this */,
+        jstring name,
+        jstring value,
+        jint overwrite) {
+    const char* name_ = env->GetStringUTFChars(name, 0);
+    const char* value_ = env->GetStringUTFChars(value, 0);
+
+    return jint(setenv(name_, value_, overwrite));
+}

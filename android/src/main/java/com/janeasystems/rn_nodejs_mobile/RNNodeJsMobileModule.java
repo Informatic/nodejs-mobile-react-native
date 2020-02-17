@@ -79,11 +79,7 @@ public class RNNodeJsMobileModule extends ReactContextBaseJavaModule implements 
     nativeAssetsPath = BUILTIN_NATIVE_ASSETS_PREFIX + getCurrentABIName();
 
     // Sets the TMPDIR environment to the cacheDir, to be used in Node as os.tmpdir
-    try {
-      Os.setenv("TMPDIR", reactContext.getCacheDir().getAbsolutePath(), true);
-    } catch (ErrnoException e) {
-      e.printStackTrace();
-    }
+    setenv("TMPDIR", reactContext.getCacheDir().getAbsolutePath(), 1);
 
     // Register the filesDir as the Node data dir.
     registerNodeDataDirPath(filesDirPath);
@@ -262,6 +258,8 @@ public class RNNodeJsMobileModule extends ReactContextBaseJavaModule implements 
   public native Integer startNodeWithArguments(String[] arguments, String modulesPath, boolean option_redirectOutputToLogcat);
 
   public native void sendMessageToNodeChannel(String channelName, String msg);
+
+  public native Integer setenv(String name, String value, Integer overwrite);
 
   private void waitForInit() {
     if (!initCompleted) {
